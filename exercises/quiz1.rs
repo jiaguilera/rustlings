@@ -7,10 +7,14 @@
 // more than 40 at once, each apple only costs 1! Write a function that calculates
 // the price of an order of apples given the order amount. No hints this time!
 
-// I AM NOT DONE
-
-// Put your function here!
-// fn ..... {
+type RustBucks = i32;
+fn calculate_apple_price(count: i32) -> RustBucks {
+    if count > 40 {
+        count
+    } else {
+        2 * count
+    }
+}
 
 // Don't modify this function!
 #[test]
