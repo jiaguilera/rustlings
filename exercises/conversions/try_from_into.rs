@@ -11,8 +11,6 @@ struct Color {
     blue: u8,
 }
 
-// I AM NOT DONE
-
 // Your task is to complete this implementation
 // and return an Ok result of inner type Color.
 // You need create implementation for a tuple of three integer,
@@ -26,6 +24,11 @@ struct Color {
 impl TryFrom<(i16, i16, i16)> for Color {
     type Error = String;
     fn try_from(tuple: (i16, i16, i16)) -> Result<Self, Self::Error> {
+        let (red, green, blue) = tuple;
+        let red   : u8 = TryFrom::try_from(red  ).map_err(|_| "Error R")?;
+        let green : u8 = TryFrom::try_from(green).map_err(|_| "Error G")?;
+        let blue  : u8 = TryFrom::try_from(blue ).map_err(|_| "Error B")?;
+        Ok(Color { red, green, blue })
     }
 }
 
@@ -33,6 +36,11 @@ impl TryFrom<(i16, i16, i16)> for Color {
 impl TryFrom<[i16; 3]> for Color {
     type Error = String;
     fn try_from(arr: [i16; 3]) -> Result<Self, Self::Error> {
+        let [red, green, blue] = arr;
+        let red   : u8 = TryFrom::try_from(red  ).map_err(|_| "Error R")?;
+        let green : u8 = TryFrom::try_from(green).map_err(|_| "Error G")?;
+        let blue  : u8 = TryFrom::try_from(blue ).map_err(|_| "Error B")?;
+        Ok(Color { red, green, blue })
     }
 }
 
@@ -40,6 +48,18 @@ impl TryFrom<[i16; 3]> for Color {
 impl TryFrom<&[i16]> for Color {
     type Error = String;
     fn try_from(slice: &[i16]) -> Result<Self, Self::Error> {
+        let mut slice = slice.iter();
+        let red   = slice.next().ok_or("No R")?;
+        let green = slice.next().ok_or("No G")?;
+        let blue  = slice.next().ok_or("No B")?;
+        if let Some(_) = slice.next() {
+            return Err(String::from("Extra elements"))
+        }
+        
+        let red   : u8 = TryFrom::try_from(*red  ).map_err(|_| "Error R")?;
+        let green : u8 = TryFrom::try_from(*green).map_err(|_| "Error G")?;
+        let blue  : u8 = TryFrom::try_from(*blue ).map_err(|_| "Error B")?;
+        Ok(Color { red, green, blue })
     }
 }
 
